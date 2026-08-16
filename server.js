@@ -74,7 +74,7 @@ function sendStaticFile(request, response, asset, contents) {
   response.end(request.method === "HEAD" ? undefined : contents);
 }
 
-export function createWibrateServer() {
+export function createLogicBombServer() {
   const clients = new Set();
 
   return createServer(async (request, response) => {
@@ -97,7 +97,7 @@ export function createWibrateServer() {
       return;
     }
 
-    if (request.method === "POST" && url.pathname === "/api/wibrate") {
+    if (request.method === "POST" && url.pathname === "/api/logic-bomb") {
       const event = {
         id: randomUUID(),
         senderId: request.headers["x-logic-bomb-client"] ?? null,
@@ -105,7 +105,7 @@ export function createWibrateServer() {
       };
 
       for (const client of clients) {
-        writeEvent(client, "wibrate", event);
+        writeEvent(client, "logic-bomb", event);
       }
 
       writeJson(response, 202, { ok: true, ...event });
@@ -145,7 +145,7 @@ const isDirectRun = process.argv[1] && fileURLToPath(import.meta.url) === proces
 if (isDirectRun) {
   const requestedPort = Number.parseInt(process.argv[2] ?? "4173", 10);
   const port = Number.isInteger(requestedPort) ? requestedPort : 4173;
-  const server = createWibrateServer();
+  const server = createLogicBombServer();
 
   server.listen(port, "0.0.0.0", () => {
     console.log("\nLOGIC BOMB is running:");

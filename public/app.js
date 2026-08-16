@@ -427,7 +427,7 @@ function stopAlarm({ immediate = false, announceReset = false } = {}) {
   endLaunchVisual();
   setProgress(0);
   setCallRole("idle");
-  statusText.textContent = announceReset ? "Звонок сброшен." : "";
+  statusText.textContent = announceReset ? "Call dismissed." : "";
 }
 
 function finishAlarm() {
@@ -447,7 +447,7 @@ async function startIncomingAudio() {
     await ringAudio.play();
   } catch (error) {
     document.documentElement.dataset.audioError = `${error?.name || "Error"}: ${error?.message || String(error)}`;
-    statusText.textContent = "Браузер заблокировал звук. Включите звук на странице.";
+    statusText.textContent = "The browser blocked audio. Enable sound for this page.";
     startVisualOnly();
   }
 }
@@ -484,7 +484,7 @@ async function startAlarm(event) {
   }
 
   if (!armed || !audioUnlocked) {
-    statusText.textContent = "Звук не активирован.";
+    statusText.textContent = "Audio is not enabled.";
     startVisualOnly();
     return;
   }
@@ -523,7 +523,7 @@ async function armDevice({ silent = false } = {}) {
     return true;
   } catch (error) {
     if (!silent) {
-      statusText.textContent = "Не удалось включить звук.";
+      statusText.textContent = "Unable to enable audio.";
     }
     document.documentElement.dataset.audioState = "waiting-for-gesture";
     document.documentElement.dataset.audioError = `${error?.name || "Error"}: ${error?.message || String(error)}`;
@@ -539,7 +539,7 @@ async function sendSignal() {
   syncButtonDisabled();
 
   try {
-    const response = await fetch("/api/wibrate", {
+    const response = await fetch("/api/logic-bomb", {
       method: "POST",
       headers: { "X-Logic-Bomb-Client": clientId },
     });
@@ -547,7 +547,7 @@ async function sendSignal() {
     return true;
   } catch (error) {
     console.error(error);
-    statusText.textContent = "Не удалось отправить сигнал.";
+    statusText.textContent = "Unable to send the signal.";
     return false;
   } finally {
     sending = false;
@@ -686,9 +686,9 @@ window.addEventListener("pagehide", () => {
 
 const events = new EventSource("/api/events");
 
-events.addEventListener("ready", () => setConnection("connected", "Подключено"));
+events.addEventListener("ready", () => setConnection("connected", "Connected"));
 
-events.addEventListener("wibrate", (message) => {
+events.addEventListener("logic-bomb", (message) => {
   try {
     void startAlarm(JSON.parse(message.data));
   } catch (error) {
@@ -696,7 +696,7 @@ events.addEventListener("wibrate", (message) => {
   }
 });
 
-events.onerror = () => setConnection("disconnected", "Переподключение…");
+events.onerror = () => setConnection("disconnected", "Reconnecting…");
 
 window.addEventListener("beforeunload", () => {
   stopAlarm({ immediate: true });
@@ -708,7 +708,7 @@ setProgress(0);
 setTargetSelection(0);
 setCallRole("idle");
 setCapabilityMessage();
-setConnection("connecting", "Подключение…");
+setConnection("connecting", "Connecting…");
 void prepareContinuousRing();
 
 document.documentElement.dataset.serviceWorker = "unavailable";
