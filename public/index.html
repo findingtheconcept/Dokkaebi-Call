@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#08090b" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="DOKK OS" />
+    <title>DOKK OS</title>
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="background-glitch" id="backgroundGlitch" aria-hidden="true"></div>
+    <main class="panel" aria-live="polite">
+      <header class="topline">
+        <div class="connection">
+          <span class="connection__dot" aria-hidden="true"></span>
+          <span id="connectionText">Подключение…</span>
+        </div>
+        <span class="network-label">LAN</span>
+      </header>
+
+      <section class="content">
+        <h1 class="sr-only">DOKK OS</h1>
+        <p id="capabilityText" hidden></p>
+
+        <div class="dokkaebi-stage" id="dokkaebiStage" aria-hidden="true">
+          <div class="dokkaebi-pulse" id="dokkaebiPulse">
+            <div class="signal-noise"></div>
+            <div class="dokkaebi-frame dokkaebi-frame--primary" id="iconFramePrimary">
+              <img class="dokkaebi-icon dokkaebi-icon--cyan" src="/assets/dokkaebi-icon.png" alt="" draggable="false" />
+              <img class="dokkaebi-icon dokkaebi-icon--red" src="/assets/dokkaebi-icon.png" alt="" draggable="false" />
+              <img class="dokkaebi-icon dokkaebi-icon--base" src="/assets/dokkaebi-icon.png" alt="" draggable="false" />
+            </div>
+            <div class="dokkaebi-frame dokkaebi-frame--alert" id="iconFrameAlert">
+              <img class="dokkaebi-icon dokkaebi-icon--cyan" src="/assets/dokkaebi-icon-alert.png" alt="" draggable="false" />
+              <img class="dokkaebi-icon dokkaebi-icon--red" src="/assets/dokkaebi-icon-alert.png" alt="" draggable="false" />
+              <img class="dokkaebi-icon dokkaebi-icon--base" src="/assets/dokkaebi-icon-alert.png" alt="" draggable="false" />
+            </div>
+            <div class="scanlines"></div>
+          </div>
+        </div>
+
+        <button class="arm-button" id="armButton" type="button" hidden tabindex="-1" aria-hidden="true">Включить звук</button>
+
+        <section class="operator-console" aria-label="DOKK OS">
+          <span class="terminal-status" aria-hidden="true">
+            <span>I/O LOCK&nbsp; ▮▮▮▮▮▮&nbsp;&nbsp; S 34ms&nbsp; ▲</span>
+            <span>89%&nbsp; ▰</span>
+          </span>
+          <span class="terminal-body">
+            <span class="target-panel">
+              <span class="target-toolbar" aria-hidden="true"><b>STATUS / ALLY</b><em>SELECT ALL&nbsp; ↓</em></span>
+              <span class="target-list" id="targetList" role="listbox" tabindex="0" aria-label="Список союзников">
+                <span class="target-row"><b>×</b><i>???</i><em>01:D3:F5:67:89:4E&nbsp; /&nbsp; ACK:0</em></span>
+                <span class="target-row"><b>×</b><i>???</i><em>01:D3:F5:67:89:4E&nbsp; /&nbsp; ACK:0</em></span>
+                <span class="target-row"><b>×</b><i>???</i><em>01:D3:F5:67:89:4E&nbsp; /&nbsp; ACK:0</em></span>
+                <span class="target-row"><b>×</b><i>???</i><em>01:D3:F5:67:89:4E&nbsp; /&nbsp; ACK:0</em></span>
+                <span class="target-row"><b>×</b><i>???</i><em>01:D3:F5:67:89:4E&nbsp; /&nbsp; ACK:0</em></span>
+              </span>
+            </span>
+            <span class="side-rail">
+              <span class="dokk-badge" aria-hidden="true">
+                <img src="/assets/dokkaebi-icon.png" alt="" draggable="false" />
+                <b>DOKK OS</b>
+              </span>
+              <button class="logic-button" id="logicButton" type="button" disabled>
+              <svg class="call-progress" id="callProgress" viewBox="0 0 100 100" role="progressbar" aria-label="Прогресс звонка" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <circle class="call-progress__track" cx="50" cy="50" r="46"></circle>
+                <circle class="call-progress__value" id="progressCircle" cx="50" cy="50" r="46"></circle>
+              </svg>
+              <span class="logic-button__label">LOGIC<br />BOMB</span>
+              <span class="logic-button__hint" id="buttonHint">LOCKED</span>
+              </button>
+            </span>
+          </span>
+        </section>
+
+        <p class="sr-only" id="statusText" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <audio id="ringAudio" preload="auto" playsinline src="/assets/dokkaebi-ring.mp3"></audio>
+    <script src="/vendor/gsap.min.js"></script>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
